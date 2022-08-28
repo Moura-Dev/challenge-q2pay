@@ -10,7 +10,10 @@ import (
 
 func CreateUser(ctx *gin.Context) {
 	user := models.User{}
-	ctx.ShouldBindJSON(&user)
+	err := ctx.ShouldBindJSON(&user)
+	if err != nil {
+		return
+	}
 	//validate cpf or cnpj
 	if !utils.ValidateCNPJ(user.CpfCnpj) && !utils.ValidateCPF(user.CpfCnpj) {
 		ctx.JSON(500, gin.H{
@@ -24,7 +27,8 @@ func CreateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	err := repository.CreateUser(&user)
+	user.CpfCnpj = utils.UnMaskCPFCNPJ(user.CpfCnpj)
+	err = repository.CreateUser(&user)
 	if err != nil {
 		ctx.JSON(500, gin.H{
 			"error": err.Error(),

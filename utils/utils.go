@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
+	"strings"
 	"time"
 )
 
@@ -11,23 +12,22 @@ var myClient = &http.Client{Timeout: 10 * time.Second}
 
 const Url = "https://run.mocky.io/v3/d02168c6-d88d-4ff2-aac6-9e9eb3425e31"
 
-func Authorization(url string, target interface{}) bool {
+type ResponseAuth struct {
+	Authorization bool
+}
+
+func Authorization(url string, target *ResponseAuth) (bool, error) {
 	r, err := myClient.Get(url)
 	if err != nil {
-		return false
+		return false, err
 	}
 	defer r.Body.Close()
 
-	err = json.NewDecoder(r.Body).Decode(&target)
+	err = json.NewDecoder(r.Body).Decode(target)
 	if err != nil {
-		return false
+		return false, err
 	}
-	authorizeResponse := make(map[string]any)
-	authorizeResponse = target.(map[string]any)
-	if authorizeResponse["authorization"] == false {
-		return false
-	}
-	return true
+	return target.Authorization, nil
 }
 
 func ValidateCPF(cpf string) bool {
@@ -46,4 +46,13 @@ func ValidateEmail(email string) bool {
 	const pattern = `^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`
 	matched, _ := regexp.MatchString(pattern, email)
 	return matched
+}
+
+// replace . and - from cpf
+func UnMaskCPFCNPJ(cpfcnpj string) string {
+	cpfcnpj = strings.Replace(cpfcnpj, ".", "", -1)
+	cpfcnpj = strings.Replace(cpfcnpj, "-", "", -1)
+	cpfcnpj = strings.Replace(cpfcnpj, "/", "", -1)
+
+	return cpfcnpj
 }
