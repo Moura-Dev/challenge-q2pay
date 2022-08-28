@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-type responseAuth struct {
-	Authorization bool
-}
-
 func CreateTransaction(ctx *gin.Context) {
 	transaction := models.Transaction{}
 	err := ctx.ShouldBindJSON(&transaction)
@@ -36,7 +32,6 @@ func CreateTransaction(ctx *gin.Context) {
 
 // Transfer balance from one account to another
 func TransferBalance(ctx *gin.Context) {
-	//db.StartDB()
 	transaction := models.Transaction{}
 	err := ctx.ShouldBindJSON(&transaction)
 	if err != nil {
@@ -73,9 +68,16 @@ func TransferBalance(ctx *gin.Context) {
 		return
 	}
 	//Request authorization
-	auth := responseAuth{}
-	auth.Authorization = utils.Authorization(utils.Url, auth)
-	if !auth.Authorization {
+	auth := utils.ResponseAuth{}
+	AuthorizationResponse, err := utils.Authorization(utils.Url, &auth)
+	if err != nil {
+		ctx.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if !AuthorizationResponse {
 		ctx.JSON(500, gin.H{
 			"error": "Authorization failed",
 		})
