@@ -37,7 +37,7 @@ func CreateUser(user *models.User) error {
 
 ////Get User By id
 
-func GetUser(id string) (*models.User, error) {
+func GetUser(id int) (*models.User, error) {
 	user := models.User{}
 	err := db.Conn.Get(&user, "SELECT * FROM users WHERE id = $1", id)
 	if err != nil {
