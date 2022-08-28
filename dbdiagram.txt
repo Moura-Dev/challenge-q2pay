@@ -14,8 +14,6 @@ Table users as U {
 Table wallet as W {
   id int [pk, increment]
   balance decimal
-  available decimal
-  in_transaction decimal
   user_id int
   version int
 }
@@ -25,19 +23,10 @@ Table transaction as T {
   value decimal
   payer int
   payee int
-  status status
   created_at datetime
-  updated_at datetime
 
 }
 
-
-Enum status {
-  Open
-  Done
-  Canceled
-
-}
 Ref: U.id > W.user_id
 Ref: T.payer > U.id
 Ref: T.payee > U.id
