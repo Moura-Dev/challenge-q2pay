@@ -16,6 +16,8 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			routers.GET("/wallet/:id", controllers.GetWallet)
 			//ADD balance user
 			routers.POST("/user/:id/balance", controllers.AddBalance)
+			routers.POST("/transfer", controllers.TransferBalance)
+
 		}
 	}
 	return router
