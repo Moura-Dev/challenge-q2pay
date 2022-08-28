@@ -7,8 +7,8 @@ import (
 )
 
 func CreateTransaction(transaction *models.Transaction) error {
-	_, err := db.Conn.NamedExec(`INSERT INTO transactions (value, payer, payee, status)
-		VALUES (:value, :payer, :payee, :status)`, transaction)
+	_, err := db.Conn.NamedExec(`INSERT INTO transactions (value, payer, payee)
+		VALUES (:value, :payer, :payee)`, transaction)
 	if err != nil {
 		fmt.Println(err)
 		return err

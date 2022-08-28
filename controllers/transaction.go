@@ -5,30 +5,7 @@ import (
 	"challenge-q2pay/repository"
 	"challenge-q2pay/utils"
 	"github.com/gin-gonic/gin"
-	"strings"
 )
-
-func CreateTransaction(ctx *gin.Context) {
-	transaction := models.Transaction{}
-	err := ctx.ShouldBindJSON(&transaction)
-	if err != nil {
-		return
-	}
-	// set Transaction status upper case
-	transaction.Status = strings.ToUpper(transaction.Status)
-	err = repository.CreateTransaction(&transaction)
-	if err != nil {
-		ctx.JSON(500, gin.H{
-			"error": err.Error(),
-		})
-		return
-
-	} else {
-		ctx.JSON(200, gin.H{
-			"message": "Transaction created",
-		})
-	}
-}
 
 // Transfer balance from one account to another
 func TransferBalance(ctx *gin.Context) {
@@ -85,7 +62,7 @@ func TransferBalance(ctx *gin.Context) {
 	}
 
 	//Update balance from payer
-	err = repository.UpdateBalance(transaction.Payer, transaction.Value)
+	err = repository.RemoveBalance(transaction.Payer, transaction.Value, wallet.Version)
 	if err != nil {
 		ctx.JSON(500, gin.H{
 			"error": err.Error(),
@@ -108,6 +85,7 @@ func TransferBalance(ctx *gin.Context) {
 		})
 		return
 	} else {
+		_ = repository.CreateTransaction(&transaction)
 		ctx.JSON(200, gin.H{
 			"message": "Balance transferred",
 		})
