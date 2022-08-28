@@ -11,9 +11,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db, err := db.StartDB()
+	database, err := db.StartDB()
+	database.MustExec(db.Schema)
 
-	defer db.Close()
+	defer database.Close()
 	s := server.NewServer()
 
 	s.Run()

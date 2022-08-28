@@ -30,6 +30,3 @@ Table transaction as T {
 Ref: U.id > W.user_id
 Ref: T.payer > U.id
 Ref: T.payee > U.id
-
-
-
