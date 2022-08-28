@@ -4,12 +4,17 @@ import (
 	"challenge-q2pay/models"
 	"challenge-q2pay/repository"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 // GET Wallet by user_id
 func GetWallet(ctx *gin.Context) {
 	id := ctx.Param("id")
-	wallet, err := repository.GetWallet(id)
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return
+	}
+	wallet, err := repository.GetWallet(idInt)
 	if err != nil {
 		ctx.JSON(500, gin.H{
 			"error": err.Error(),
@@ -24,12 +29,16 @@ func GetWallet(ctx *gin.Context) {
 // ADD balance user
 func AddBalance(ctx *gin.Context) {
 	id := ctx.Param("id")
-	balance := models.Transaction{}
-	err := ctx.ShouldBindJSON(&balance)
+	idInt, err := strconv.Atoi(id)
 	if err != nil {
 		return
 	}
-	err = repository.AddBalance(id, balance.Value)
+	balance := models.Transaction{}
+	err = ctx.ShouldBindJSON(&balance)
+	if err != nil {
+		return
+	}
+	err = repository.AddBalance(idInt, balance.Value)
 	if err != nil {
 		ctx.JSON(500, gin.H{
 			"error": err.Error(),
