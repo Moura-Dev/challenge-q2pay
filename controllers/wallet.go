@@ -25,11 +25,11 @@ func GetWallet(ctx *gin.Context) {
 func AddBalance(ctx *gin.Context) {
 	id := ctx.Param("id")
 	balance := models.Transaction{}
-	ctx.ShouldBindJSON(&balance)
-
-	//valueDecimal := decimal.NewFromFloat(value)
-
-	err := repository.AddBalance(id, balance.Value)
+	err := ctx.ShouldBindJSON(&balance)
+	if err != nil {
+		return
+	}
+	err = repository.AddBalance(id, balance.Value)
 	if err != nil {
 		ctx.JSON(500, gin.H{
 			"error": err.Error(),
