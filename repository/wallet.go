@@ -19,7 +19,7 @@ func CreateWallet(wallet *models.Wallet) error {
 }
 
 // Get wallet by user_id
-func GetWallet(user_id string) (*models.Wallet, error) {
+func GetWallet(user_id int) (*models.Wallet, error) {
 	wallet := models.Wallet{}
 	err := db.Conn.Get(&wallet, "SELECT * FROM wallets WHERE user_id = $1", user_id)
 	if err != nil {
@@ -30,9 +30,21 @@ func GetWallet(user_id string) (*models.Wallet, error) {
 }
 
 // ADD balance user
-func AddBalance(user_id string, balance decimal.Decimal) error {
+func AddBalance(user_id int, balance decimal.Decimal) error {
 	_, err := db.Conn.Exec(`UPDATE wallets SET balance = balance + $1, version = version + 1 
                WHERE user_id = $2 AND version=version`, balance, user_id)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	_ = db.Conn.MustBegin().Commit()
+	return nil
+}
+
+// Update balance from payer
+func UpdateBalance(user_id int, balance decimal.Decimal) error {
+	_, err := db.Conn.Exec(`UPDATE wallets SET balance = balance - $1, version = version + 1 
+			   WHERE user_id = $2 AND version=version`, balance, user_id)
 	if err != nil {
 		fmt.Println(err)
 		return err
