@@ -10,12 +10,11 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 	{
 		routers := main.Group("/")
 		{
-			routers.POST("/transaction", controllers.CreateTransaction)
 			routers.POST("/user", controllers.CreateUser)
 			routers.GET("/user/:id", controllers.GetUser)
 			routers.GET("/wallet/:id", controllers.GetWallet)
-			//ADD balance user
-			routers.POST("/user/:id/balance", controllers.AddBalance)
+			//Deposit balance user
+			routers.POST("/user/:id/deposit", controllers.DepositBalance)
 			routers.POST("/transfer", controllers.TransferBalance)
 
 		}
