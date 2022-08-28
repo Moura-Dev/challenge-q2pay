@@ -18,6 +18,12 @@ func CreateUser(ctx *gin.Context) {
 		})
 		return
 	}
+	if !utils.ValidateEmail(user.Email) {
+		ctx.JSON(500, gin.H{
+			"error": "Invalid email",
+		})
+		return
+	}
 	err := repository.CreateUser(&user)
 	if err != nil {
 		ctx.JSON(500, gin.H{
