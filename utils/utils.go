@@ -48,7 +48,6 @@ func ValidateEmail(email string) bool {
 	return matched
 }
 
-// replace . and - from cpf
 func UnMaskCPFCNPJ(cpfcnpj string) string {
 	cpfcnpj = strings.Replace(cpfcnpj, ".", "", -1)
 	cpfcnpj = strings.Replace(cpfcnpj, "-", "", -1)

@@ -1,8 +1,6 @@
 create table if not exists wallets (
     id serial,
     balance decimal(10,4) default 0 CONSTRAINT balance_positive CHECK (balance >= 0) ,
-    available decimal(10,4) default 0 CONSTRAINT available_positive CHECK (available >= 0),
-    in_transaction decimal(10,4) default 0 CONSTRAINT in_transaction CHECK (in_transaction >= 0),
     user_id int NOT NULL ,
     version int default 0,
     Primary KEY (id),

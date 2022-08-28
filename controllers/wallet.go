@@ -27,7 +27,7 @@ func GetWallet(ctx *gin.Context) {
 }
 
 // ADD balance user
-func AddBalance(ctx *gin.Context) {
+func DepositBalance(ctx *gin.Context) {
 	id := ctx.Param("id")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {

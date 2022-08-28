@@ -8,8 +8,8 @@ import (
 )
 
 func CreateWallet(wallet *models.Wallet) error {
-	_, err := db.Conn.NamedExec(`INSERT INTO wallets (user_id, balance, available, in_transaction, version) 
-		VALUES (:user_id, :balance, :available, :in_transaction, :version)`, wallet)
+	_, err := db.Conn.NamedExec(`INSERT INTO wallets (user_id, balance, version) 
+		VALUES (:user_id, :balance, :version)`, wallet)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -41,10 +41,10 @@ func AddBalance(user_id int, balance decimal.Decimal) error {
 	return nil
 }
 
-// Update balance from payer
-func UpdateBalance(user_id int, balance decimal.Decimal) error {
+// Remove balance from payer
+func RemoveBalance(user_id int, balance decimal.Decimal, version int) error {
 	_, err := db.Conn.Exec(`UPDATE wallets SET balance = balance - $1, version = version + 1 
-			   WHERE user_id = $2 AND version=version`, balance, user_id)
+			   WHERE user_id = $2 AND version=$3`, balance, user_id, version)
 	if err != nil {
 		fmt.Println(err)
 		return err
