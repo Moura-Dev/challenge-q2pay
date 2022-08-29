@@ -4,6 +4,7 @@ import (
 	"challenge-q2pay/db"
 	"challenge-q2pay/models"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	"github.com/shopspring/decimal"
 )
 
@@ -30,25 +31,23 @@ func GetWallet(user_id int) (*models.Wallet, error) {
 }
 
 // ADD balance user
-func AddBalance(user_id int, balance decimal.Decimal) error {
-	_, err := db.Conn.Exec(`UPDATE wallets SET balance = balance + $1, version = version + 1 
+func AddBalance(user_id int, balance decimal.Decimal, tx *sqlx.Tx) error {
+	_, err := tx.Exec(`UPDATE wallets SET balance = balance + $1, version = version + 1 
                WHERE user_id = $2 AND version=version`, balance, user_id)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	_ = db.Conn.MustBegin().Commit()
 	return nil
 }
 
 // Remove balance from payer
-func RemoveBalance(user_id int, balance decimal.Decimal, version int) error {
-	_, err := db.Conn.Exec(`UPDATE wallets SET balance = balance - $1, version = version + 1 
-			   WHERE user_id = $2 AND version=$3`, balance, user_id, version)
+func RemoveBalance(user_id int, balance decimal.Decimal, tx *sqlx.Tx) error {
+	_, err := tx.Exec(`UPDATE wallets SET balance = balance - $1, version = version + 1 
+			   WHERE user_id = $2 AND version=version`, balance, user_id)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	_ = db.Conn.MustBegin().Commit()
 	return nil
 }
