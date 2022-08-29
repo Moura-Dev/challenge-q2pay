@@ -34,7 +34,7 @@ func CreateUser(ctx *gin.Context) {
 			"error": err.Error(),
 		})
 	} else {
-		ctx.JSON(200, gin.H{
+		ctx.JSON(201, gin.H{
 			"message": "User created",
 		})
 	}
