@@ -36,3 +36,31 @@ func StartDB() (*sqlx.DB, error) {
 	fmt.Println("Database connected", "Postgres")
 	return Conn, err
 }
+
+func StartTransaction() (*sqlx.Tx, error) {
+	ctx := context.Background()
+	tx, err := Conn.BeginTxx(ctx, nil)
+	if err != nil {
+		fmt.Printf("Error connecting to the database: %s", err)
+		return tx, err
+	}
+	return tx, err
+}
+
+func CommitTransaction(tx *sqlx.Tx) error {
+	err := tx.Commit()
+	if err != nil {
+		fmt.Printf("Error connecting to the database: %s", err)
+		return err
+	}
+	return err
+}
+
+func RollbackTransaction(tx *sqlx.Tx) error {
+	err := tx.Rollback()
+	if err != nil {
+		fmt.Printf("Error connecting to the database: %s", err)
+		return err
+	}
+	return err
+}
