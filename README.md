@@ -6,6 +6,8 @@
 
 
 ## Docs
+![img](docs/img/openapi.png)
+
 Docs: http://localhost:5000/api/docs/index.html#/
 
 # Golang Api
