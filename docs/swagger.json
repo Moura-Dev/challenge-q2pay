@@ -8,7 +8,7 @@
     "host": "localhost:5000",
     "basePath": "/api",
     "paths": {
-        "/api/transfer": {
+        "/transfer": {
             "post": {
                 "description": "Transfer Balance",
                 "consumes": [
@@ -45,7 +45,7 @@
                 }
             }
         },
-        "/api/user/": {
+        "/user/": {
             "post": {
                 "description": "Create User",
                 "consumes": [
@@ -82,7 +82,7 @@
                 }
             }
         },
-        "/api/user/{userID}": {
+        "/user/{userID}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -123,7 +123,7 @@
                 }
             }
         },
-        "/api/user/{userID}/deposit": {
+        "/user/{userID}/deposit": {
             "post": {
                 "description": "Add Balance to User",
                 "consumes": [
@@ -167,7 +167,7 @@
                 }
             }
         },
-        "/api/wallet/{userID}": {
+        "/wallet/{userID}": {
             "get": {
                 "consumes": [
                     "application/json"

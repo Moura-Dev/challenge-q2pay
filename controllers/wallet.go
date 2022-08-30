@@ -16,7 +16,7 @@ import (
 // @Param   userID      path   int     true  "userID"
 // @Success 200 {object} models.Wallet	"ok"
 // @Failure 500 {string} string "error"
-// @Router /api/wallet/{userID} [get]
+// @Router /wallet/{userID} [get]
 func GetWallet(ctx *gin.Context) {
 	id := ctx.Param("id")
 	idInt, _ := strconv.Atoi(id)
@@ -39,7 +39,7 @@ func GetWallet(ctx *gin.Context) {
 // @Param   value  body models.Deposit true  "value"
 // @Param   userID      path   int     true  "userID"
 // @Failure 500 {string} string "Error"
-// @Router /api/user/{userID}/deposit [post]
+// @Router /user/{userID}/deposit [post]
 // @Success 201 {struct} Balance added
 func DepositBalance(ctx *gin.Context) {
 	tx, err := db.StartTransaction()

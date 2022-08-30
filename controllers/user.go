@@ -15,7 +15,7 @@ import (
 // @Produce  json
 // @Param   user      body models.User true  "user"
 // @Failure 500 {string} web.APIError "Error"
-// @Router /api/user/ [post]
+// @Router /user/ [post]
 // @Success 201 {object} models.User
 func CreateUser(ctx *gin.Context) {
 	user := models.User{}
@@ -60,7 +60,7 @@ func CreateUser(ctx *gin.Context) {
 // @Success 200 {string} string	"ok"
 // @Failure 500 {string} string "error"
 // @Failure 404 {string} string "user not found"
-// @Router /api/user/{userID} [get]
+// @Router /user/{userID} [get]
 func GetUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 	idInt, _ := strconv.Atoi(id)

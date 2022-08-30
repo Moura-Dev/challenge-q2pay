@@ -42,7 +42,7 @@ info:
   title: Basic API Transfer Balance
   version: "1.0"
 paths:
-  /api/transfer:
+  /transfer:
     post:
       consumes:
       - application/json
@@ -66,7 +66,7 @@ paths:
           schema:
             type: string
       summary: Transfer Balance user to another user
-  /api/user/:
+  /user/:
     post:
       consumes:
       - application/json
@@ -90,7 +90,7 @@ paths:
           schema:
             type: string
       summary: Add a new user
-  /api/user/{userID}:
+  /user/{userID}:
     get:
       consumes:
       - application/json
@@ -117,7 +117,7 @@ paths:
           schema:
             type: string
       summary: Get user by id
-  /api/user/{userID}/deposit:
+  /user/{userID}/deposit:
     post:
       consumes:
       - application/json
@@ -146,7 +146,7 @@ paths:
           schema:
             type: string
       summary: Add Balance to user
-  /api/wallet/{userID}:
+  /wallet/{userID}:
     get:
       consumes:
       - application/json

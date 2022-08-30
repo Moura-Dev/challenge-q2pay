@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/transfer": {
+        "/transfer": {
             "post": {
                 "description": "Transfer Balance",
                 "consumes": [
@@ -53,7 +53,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user/": {
+        "/user/": {
             "post": {
                 "description": "Create User",
                 "consumes": [
@@ -90,7 +90,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user/{userID}": {
+        "/user/{userID}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -131,7 +131,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user/{userID}/deposit": {
+        "/user/{userID}/deposit": {
             "post": {
                 "description": "Add Balance to User",
                 "consumes": [
@@ -175,7 +175,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/wallet/{userID}": {
+        "/wallet/{userID}": {
             "get": {
                 "consumes": [
                     "application/json"

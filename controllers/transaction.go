@@ -14,7 +14,7 @@ import (
 // @Produce  json
 // @Param   Transaction  body models.Transaction true  "value"
 // @Failure 500 {string} string "Error"
-// @Router /api/transfer [post]
+// @Router /transfer [post]
 // @Success 201 {string} string Balance transferred
 func TransferBalance(ctx *gin.Context) {
 	tx, err := db.StartTransaction()
