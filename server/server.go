@@ -2,7 +2,9 @@ package server
 
 import (
 	"challenge-q2pay/server/routes"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +24,23 @@ func NewServer() Server {
 func (s *Server) Run() {
 	router := routes.ConfigRoutes(s.server)
 
-	log.Printf("Server running at port: %v", s.port)
+	router.SetTrustedProxies(nil)
+
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
+	router.Use(gin.Recovery())
+
 	log.Fatal(router.Run(":" + s.port))
 }
