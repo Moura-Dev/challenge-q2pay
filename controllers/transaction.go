@@ -8,7 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Transfer balance from one account to another
+// @Summary Transfer Balance user to another user
+// @Description Transfer Balance
+// @Accept  json
+// @Produce  json
+// @Param   Transaction  body models.Transaction true  "value"
+// @Failure 500 {string} string "Error"
+// @Router /api/transfer [post]
+// @Success 201 {string} string Balance transferred
 func TransferBalance(ctx *gin.Context) {
 	tx, err := db.StartTransaction()
 	if err != nil {

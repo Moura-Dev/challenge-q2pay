@@ -7,7 +7,7 @@ type User struct {
 	Email     string `json:"email" db:"email"`
 	Login     string `json:"login" db:"login"`
 	Password  string `json:"password,omitempty" db:"password"`
-	Active    bool   `json:"active" db:"active"`
-	CreatedAt string `json:"created_at,omitempty" db:"created_at"`
-	UpdatedAt string `json:"updated_at,omitempty" db:"updated_at"`
+	Active    bool   `json:"-" db:"active"`
+	CreatedAt string `json:"-" db:"created_at"`
+	UpdatedAt string `json:"-" db:"updated_at"`
 }

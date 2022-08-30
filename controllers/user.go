@@ -9,6 +9,14 @@ import (
 	"strconv"
 )
 
+// @Summary Add a new user
+// @Description Create User
+// @Accept  json
+// @Produce  json
+// @Param   user      body models.User true  "user"
+// @Failure 500 {string} web.APIError "Error"
+// @Router /api/user/ [post]
+// @Success 201 {object} models.User
 func CreateUser(ctx *gin.Context) {
 	user := models.User{}
 	err := ctx.ShouldBindJSON(&user)
@@ -43,11 +51,26 @@ func CreateUser(ctx *gin.Context) {
 	}
 }
 
-// Get User By id
+// GetUserByID
+// @Summary Get user by id
+// @ID GetUserByID
+// @Accept  json
+// @Produce  json
+// @Param   userID      path   int     true  "userID"
+// @Success 200 {string} string	"ok"
+// @Failure 500 {string} string "error"
+// @Failure 404 {string} string "user not found"
+// @Router /api/user/{userID} [get]
 func GetUser(ctx *gin.Context) {
 	id := ctx.Param("id")
-	idInt, err := strconv.Atoi(id)
+	idInt, _ := strconv.Atoi(id)
 	data, err := repository.GetUser(idInt)
+	if err != nil {
+		ctx.JSON(404, gin.H{
+			"error": "User not found",
+		})
+		return
+	}
 	user := models.User{
 		Id:       data.Id,
 		FullName: data.FullName,
@@ -57,13 +80,7 @@ func GetUser(ctx *gin.Context) {
 		Active:   data.Active,
 	}
 
-	if err != nil {
-		ctx.JSON(500, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		ctx.JSON(200, gin.H{
-			"user": user,
-		})
-	}
+	ctx.JSON(200, gin.H{
+		"user": user,
+	})
 }
