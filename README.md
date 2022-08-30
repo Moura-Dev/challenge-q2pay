@@ -1,7 +1,12 @@
 # Challenge Q2Pay
 
-Docs: http://localhost:5000/api/docs/index.html#/
+## Architecture
 
+![img](docs/img/dbdiagram.png)
+
+
+## Docs
+Docs: http://localhost:5000/api/docs/index.html#/
 
 # Golang Api
 
