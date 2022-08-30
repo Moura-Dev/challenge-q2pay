@@ -3,6 +3,7 @@ package controllers
 import (
 	"challenge-q2pay/models"
 	"challenge-q2pay/repository"
+	"challenge-q2pay/services"
 	"challenge-q2pay/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -28,6 +29,8 @@ func CreateUser(ctx *gin.Context) {
 		return
 	}
 	user.CpfCnpj = utils.UnMaskCPFCNPJ(user.CpfCnpj)
+	user.Password = services.SHA256ENCODER(user.Password)
+
 	err = repository.CreateUser(&user)
 	if err != nil {
 		ctx.JSON(500, gin.H{
