@@ -1,0 +1,172 @@
+basePath: /api
+definitions:
+  models.Deposit:
+    properties:
+      value:
+        type: number
+    type: object
+  models.Transaction:
+    properties:
+      payee:
+        type: integer
+      payer:
+        type: integer
+      value:
+        type: number
+    type: object
+  models.User:
+    properties:
+      cpfcnpj:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+  models.Wallet:
+    properties:
+      balance:
+        type: number
+      user_id:
+        type: integer
+      version:
+        type: integer
+    type: object
+host: localhost:5000
+info:
+  contact: {}
+  title: Basic API Transfer Balance
+  version: "1.0"
+paths:
+  /api/transfer:
+    post:
+      consumes:
+      - application/json
+      description: Transfer Balance
+      parameters:
+      - description: value
+        in: body
+        name: Transaction
+        required: true
+        schema:
+          $ref: '#/definitions/models.Transaction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "500":
+          description: Error
+          schema:
+            type: string
+      summary: Transfer Balance user to another user
+  /api/user/:
+    post:
+      consumes:
+      - application/json
+      description: Create User
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Error
+          schema:
+            type: string
+      summary: Add a new user
+  /api/user/{userID}:
+    get:
+      consumes:
+      - application/json
+      operationId: GetUserByID
+      parameters:
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "404":
+          description: user not found
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Get user by id
+  /api/user/{userID}/deposit:
+    post:
+      consumes:
+      - application/json
+      description: Add Balance to User
+      parameters:
+      - description: value
+        in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/models.Deposit'
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: struct
+        "500":
+          description: Error
+          schema:
+            type: string
+      summary: Add Balance to user
+  /api/wallet/{userID}:
+    get:
+      consumes:
+      - application/json
+      operationId: GetWalletByUserID
+      parameters:
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Wallet'
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Get Wallet by user id
+swagger: "2.0"
