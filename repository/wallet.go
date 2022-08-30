@@ -20,9 +20,9 @@ func CreateWallet(wallet *models.Wallet) error {
 }
 
 // Get wallet by user_id
-func GetWallet(user_id int) (*models.Wallet, error) {
+func GetWallet(userId int) (*models.Wallet, error) {
 	wallet := models.Wallet{}
-	err := db.Conn.Get(&wallet, "SELECT * FROM wallets WHERE user_id = $1", user_id)
+	err := db.Conn.Get(&wallet, "SELECT * FROM wallets WHERE user_id = $1", userId)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -31,9 +31,9 @@ func GetWallet(user_id int) (*models.Wallet, error) {
 }
 
 // ADD balance user
-func AddBalance(user_id int, balance decimal.Decimal, tx *sqlx.Tx) error {
+func AddBalance(userId int, balance decimal.Decimal, tx *sqlx.Tx) error {
 	_, err := tx.Exec(`UPDATE wallets SET balance = balance + $1, version = version + 1 
-               WHERE user_id = $2 AND version=version`, balance, user_id)
+               WHERE user_id = $2 AND version=version`, balance, userId)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -42,9 +42,9 @@ func AddBalance(user_id int, balance decimal.Decimal, tx *sqlx.Tx) error {
 }
 
 // Remove balance from payer
-func RemoveBalance(user_id int, balance decimal.Decimal, tx *sqlx.Tx) error {
+func RemoveBalance(userId int, balance decimal.Decimal, tx *sqlx.Tx) error {
 	_, err := tx.Exec(`UPDATE wallets SET balance = balance - $1, version = version + 1 
-			   WHERE user_id = $2 AND version=version`, balance, user_id)
+			   WHERE user_id = $2 AND version=version`, balance, userId)
 	if err != nil {
 		fmt.Println(err)
 		return err

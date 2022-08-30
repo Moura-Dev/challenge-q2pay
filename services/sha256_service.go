@@ -6,7 +6,7 @@ import (
 )
 
 func SHA256ENCODER(text string) string {
-	str_encoder := sha256.Sum256([]byte(text))
+	strEncoder := sha256.Sum256([]byte(text))
 
-	return fmt.Sprintf("%x", str_encoder)
+	return fmt.Sprintf("%x", strEncoder)
 }
