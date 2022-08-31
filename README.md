@@ -32,11 +32,15 @@ Go mod Init
 go mod init challenge-q2pay
 ```
 
-
 Install Dependencies
 
 ```bash
   go mod tidy
+```
+Export env
+```bash
+export DB_URL=user=postgres dbname=postgres password=postgres sslmode=disable
+export PORT=5000
 ```
 
 Run Server Service
