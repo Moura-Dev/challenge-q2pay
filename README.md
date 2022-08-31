@@ -19,12 +19,12 @@ Docs: http://localhost:5000/api/docs/index.html#/
 ## Download Collection Postman
 docs/quero2pay.postman_collection.json
 
-## Start postgresdb
+## Start postgresdb And Go-Server
 ```bash
 make services
 ```
 
-## Run
+## Run Local server
 
 Go mod Init
 
