@@ -12,7 +12,7 @@ import (
 
 // @title Basic API Transfer Balance
 // @version 1.0
-// @host localhost:5000
+// @host localhost:PORT
 // @BasePath /api
 
 func ConfigRoutes(router *gin.Engine) *gin.Engine {
