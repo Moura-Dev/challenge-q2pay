@@ -4,6 +4,7 @@ import (
 	"challenge-q2pay/server/routes"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ type Server struct {
 
 func NewServer() Server {
 	return Server{
-		port:   "5000",
+		port:   os.Getenv("PORT"),
 		server: gin.Default(),
 	}
 }

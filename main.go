@@ -3,15 +3,14 @@ package main
 import (
 	"challenge-q2pay/db"
 	"challenge-q2pay/server"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		panic(err)
-	}
-	database, err := db.StartDB()
+	//err := godotenv.Load(".env")
+	//if err != nil {
+	//	panic(err)
+	//}
+	database, _ := db.StartDB()
 	database.MustExec(db.Schema)
 
 	defer database.Close()
