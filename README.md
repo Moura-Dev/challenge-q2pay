@@ -41,6 +41,7 @@ Export env
 ```bash
 export DB_URL=user=postgres dbname=postgres password=postgres sslmode=disable
 export PORT=5000
+export ENV=development
 ```
 
 Run Server Service
